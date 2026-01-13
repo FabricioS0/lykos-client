@@ -1,110 +1,87 @@
 <template>
+
     <body>
         <div class="flex items-center justify-center min-h-screen flex-col max-w-800 mx-auto p-4">
-            <h1 class="text-2xl font-bold mb-6 text-center">
+            <h1 class="text-2xl font-bold mb-6 text-center text-black">
                 Crie sua conta
             </h1>
-            <!--formulario de cadastro de usuario-->
-            <form class="max-w-xl w-full mx-auto" @submit.prevent="handleSubmit" >
-                <!--campo nome-->
-                <div class="w-full py-4 ">
-                    <label for="nome" class="block text-left font-medium">Nome Completo</label>
-                    <input type="text"  id="nome" name="nome" v-model="form.nome" required placeholder="Entre com seu nome completo"  >
+
+
+
+            <UForm :schema="schema" :state="state" class="space-y-4 max-w-xl w-full mx-auto" @submit="handleSubmit">
+                <UFormField label="Nome Completo" name="nome"
+                    :ui="{ label: 'text-black', error: 'text-[var(--color-laranja)] text-sm mt-1', }">
+                    <UInput v-model="state.nome" variant="none" placeholder="Entre com seu nome completo" class="w-full" :ui="{
+                        base: 'w-full h-14 px-4 border border-[var(--color-laranja)] rounded-xl text-[#94824F] focus:ring-2 focus:ring-[var(--color-laranja)]'
+                    }" />
+                </UFormField>
+                <UFormField label="Email" name="email" class="block text-left font-medium"
+                    :ui="{ label: 'text-black', error: 'text-[var(--color-laranja)] text-sm mt-1', }">
+                    <UInput v-model="state.email" variant="none" placeholder="Entre com seu email" :ui="{
+                        base: 'w-full h-14 px-4 border border-[var(--color-laranja)] rounded-xl text-[#94824F] focus:ring-2 focus:ring-[var(--color-laranja)]'
+                    }" class="w-full" />
+                </UFormField>
+                <UFormField label="Senha" name="senha"
+                    :ui="{ label: 'text-black', error: 'text-[var(--color-laranja)] text-sm mt-1', }">
+                    <UInput v-model="state.senha" variant="none" type="password" placeholder="Entre com sua senha" :ui="{
+                        base: 'w-full h-14 px-4 border border-[var(--color-laranja)] rounded-xl text-[#94824F] focus:ring-2 focus:ring-[var(--color-laranja)]'
+                    }" class="w-full" />
+                </UFormField>
+                <UFormField label="Confirmar Senha" name="confirmarSenha"
+                    :ui="{ label: 'text-black', error: 'text-[var(--color-laranja)] text-sm mt-1', }">
+                    <UInput v-model="state.confirmarSenha" variant="none" type="password" placeholder="Confirme sua senha" :ui="{
+                        base: 'w-full h-14 px-4 border border-[var(--color-laranja)] rounded-xl text-[#94824F] focus:ring-2 focus:ring-[var(--color-laranja)]'
+                    }" class="w-full" />
+                </UFormField>
+
+                <div class="mt-6 flex flex-col items-center gap-4">
+                    <UButton type="submit"
+                        class="flex flex-col h-14 px-15 justify-center items-center rounded-lg bg-[var(--color-laranja)] text-white">
+                        Inscrever-se
+                    </UButton>
                 </div>
-                <!--campo email-->
-                <div class="w-full py-4">
-                    <label for="email" class="block text-left font-medium">Email</label>
-                    <input type="email" id="email" name="email" v-model="form.email" required placeholder="Entre com seu email">
-                </div>
-                <!--campo senha-->
-                <div class="w-full py-4">
-                    <label for="senha" class="block text-left font-medium">Senha</label>
-                    <input type="password" id="senha" name="senha" v-model="form.senha" required placeholder="Entre com sua senha">
-                </div>
-                <!--campo confirmar senha-->
-                <div class="w-full py-4">
-                    <label for="confirmarSenha" class="block text-left font-medium">Confirmar Senha</label>
-                    <input type="password" id="confirmarSenha" name="confirmarSenha" v-model="form.confirmarSenha" required placeholder="Confirme sua senha">
-                </div>
-                <button type="submit" class="btn-primary-solid w-full py-2 bg-[var(--color-laranja)] text-white rounded-lg" >Inscrever-se</button>
-            </form>
-            <a href="" class="mb-6 mt-6" id="links">Já tem uma conta?</a>
-            <button id="entrar"><a href="" id="links">Entrar</a></button>
+
+            </UForm>
+
+            <!-- Links -->
+            <div class="mt-6 flex flex-col items-center gap-4">
+                <a href="#" class="text-sm text-[#94824F] hover:underline">
+                    Já tem uma conta?
+                </a>
+
+                <a href="#"
+                    class="flex h-14 items-center justify-center rounded-md border px-6 text-[var(--color-laranja)]">
+                    Entrar
+                </a>
+            </div>
         </div>
     </body>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import * as v from 'valibot'
 
+const schema = v.object({
+    nome: v.pipe(v.string(), v.minLength(1, 'Nome é obrigatório')),
+    email: v.pipe(v.string(), v.email('Email inválido')),
+    senha: v.pipe(v.string(), v.minLength(8, 'A senha deve ter no mínimo 8 caracteres')),
+    confirmarSenha: v.string()
+})
 
-const form = ref({
+const state = reactive({
     nome: '',
     email: '',
     senha: '',
     confirmarSenha: ''
 })
 
-function handleSubmit(){
-    try{
-        const{ nome, email, senha, confirmarSenha } = form.value;
-        const validators = [
-            {valid: nome?.trim(), msg: 'Nome é obrigatório'},
-            {valid: email?.trim(), msg: 'Email é obrigatório'},
-            {valid: senha?.trim(), msg: 'Senha é obrigatória'},
-            {valid: confirmarSenha?.trim(), msg: 'Confirmação de senha é obrigatória'},
-            {valid: senha === confirmarSenha, msg: 'As senhas não coincidem'},
-            {valid: senha.length >= 8, msg: 'A senha deve ter no mínimo 8 caracteres'},
-            {valid: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email), msg: 'Email inválido'}
-        ]
-        const erro = validators.find(v => !v.valid);
-        if(erro){
-            alert(erro.msg);
-            return;
-        }
-        console.log('Usuário cadastrado com sucesso:', form.value);
-    }
-    catch(error){
-        console.error('Erro ao processar formulário', error);
-
+function handleSubmit() {
+    if (state.senha !== state.confirmarSenha) {
+        alert('As senhas não coincidem')
+        return
     }
 
+    console.log('Usuário cadastrado com sucesso:', state)
 }
-
 </script>
 
-<!--Estilos especificos do cadastro de usuario-->
-<style scoped>
-
-h1, label{
-    color:#171717;
-}
-input {
-    width: 100%;
-    height: 56px;
-    padding: 0 16px;
-    border: 1px solid;
-    border-radius: 12px;
-    color: var(--color-laranja);
-    box-sizing: border-box;
-}
-
-input::placeholder{
-    font-size: 16px;
-    color: #94824F;
-    width: 100%;
-}
-
-#entrar{
-
-    height: 56px;
-    border: 1px solid;
-    border-radius: 6px;
-    color: var(--color-laranja);
-    padding: 5px 25px;
-}
-#links {
-    color: #94824F;
-    text-decoration: none;
-}
-</style>

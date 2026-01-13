@@ -76,8 +76,9 @@ const onSubmit = () => {
         <UForm :schema="schema" @submit="onSubmit">
             <!-- Título -->
             <UFormField label="Titulo Serviço" name="tituloServico" class="p-2 text-black">
-                <UInput v-model="state.tituloServico" placeholder="Eu criarei uma logotipo profissional"
-                    class="rounded border text-[var(--color-dourado)] pl-2 pt-2 pb-2 w-6/12 focus:outline-none focus:ring-0" />
+                <UInput v-model="state.tituloServico" placeholder="Eu criarei uma logotipo profissional" :ui="{
+                    base: 'w-full h-14 px-4 border-[var(--color-laranja)] rounded-xl focus:ring-2 focus:ring-[var(--color-laranja)]'
+                }" class="text-[var(--color-dourado)] pl-2 pt-2 pb-2 w-6/12" />
             </UFormField>
 
             <div class="flex flex-row gap-2 w-6/12">
@@ -114,13 +115,15 @@ const onSubmit = () => {
                 </UFormField>
             </div>
             <UFormField name="tags" class="p-2 text-black">
-                <UInputTags v-model="state.tags" :max-length="5" placeholder="Insira até 5 tags"
-                    class="rounded border text-[var(--color-dourado)] pl-2 pt-2 pb-2 w-6/12 focus:outline-none focus:ring-0" />
+                <UInputTags v-model="state.tags" :max-length="5" placeholder="Insira até 5 tags" :ui="{
+                    base: 'w-full h-14 px-4  border-[var(--color-laranja)] rounded-xl text-[#94824F] focus:ring-2 focus:ring-[var(--color-laranja)]'
+                }" class="text-[var(--color-dourado)] pl-2 pt-2 pb-2 w-6/12" />
             </UFormField>
 
             <UFormField class="p-2 text-black relative" label="Descrição do Serviço" name="descricaoServico">
-                <UTextarea v-model="state.descricaoServico" :maxrows="20"
-                    class="rounded border text-[var(--color-dourado)] w-6/12 focus:outline-none focus:ring-0 pb-10" />
+                <UTextarea v-model="state.descricaoServico" :maxrows="20" :ui="{
+                    base: 'w-full h-30 px-4  border-[var(--color-laranja)] rounded-xl  focus:ring-2 focus:ring-[var(--color-laranja)]'
+                }" class="rounded  text-[var(--color-dourado)] w-6/12 focus:outline-none focus:ring-0 pb-10" />
             </UFormField>
 
             <h2 class="text-black mt-10">Galeria de Serviços Portifolio</h2>
@@ -137,19 +140,25 @@ const onSubmit = () => {
                     <!-- Prazo de entrega -->
                     <div class="p-4">
                         <label class="block text-gray-600 text-sm mb-1">Prazo de entrega</label>
-                        <UInput v-model="state.prazoEntrega" placeholder="Ex: 7 dias" class="text-black" />
+                        <UInput v-model="state.prazoEntrega" placeholder="Ex: 7 dias" class="text-black " :ui="{
+                            base: 'border-0 ring-0 focus:ring-0'
+                        }" />
                     </div>
 
                     <!-- Número de revisões -->
                     <div class="p-4">
                         <label class="block text-gray-600 text-sm mb-1">Número de revisões</label>
-                        <UInput v-model="state.revisoes" placeholder="Ex: 3" type="number" class="text-black" />
+                        <UInput v-model="state.revisoes" placeholder="Ex: 3" type="number" class="text-black" :ui="{
+                            base: 'border-0 ring-0 focus:ring-0'
+                        }" />
                     </div>
 
                     <!-- Preço -->
                     <div class="p-4">
                         <label class="block text-gray-600 text-sm mb-1">Preço</label>
-                        <UInput v-model="state.preco" placeholder="Ex: R$ 500" type="number" class="text-black" />
+                        <UInput v-model="state.preco" placeholder="Ex: R$ 500" type="number" class="text-black" :ui="{
+                            base: 'border-0 ring-0 focus:ring-0'
+                        }" />
                     </div>
                 </div>
             </UCard>
