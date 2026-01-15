@@ -25,7 +25,7 @@ function adicionarSkill(skill?: string) {
   novaSkill.value = '';
 }
 function removerSkill(skill: string) {
-  skills.value = skills.value.filter(s => s !== skill);
+  skills.value = skills.value.filter((s: string) => s !== skill);
 }
 
 // ------ Idiomas ------
@@ -51,7 +51,7 @@ function adicionarIdioma(idioma?: string) {
   novoIdioma.value = '';
 }
 function removerIdioma(idioma: string) {
-  idiomas.value = idiomas.value.filter(i => i !== idioma);
+  idiomas.value = idiomas.value.filter((i: string) => i !== idioma);
 }
 
 const form = ref({
